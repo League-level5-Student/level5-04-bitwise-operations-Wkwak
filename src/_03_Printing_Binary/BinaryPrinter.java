@@ -9,30 +9,42 @@ public class BinaryPrinter {
 	
 	public static void main(String[] args) {
 		BinaryPrinter bp = new BinaryPrinter();
-		//bp.printByteBinary(b);
-		//bp.printShortBinary(s);
-		bp.printIntBinary(124);
-		//bp.printLongBinary(l);
+		
+		Byte b = 13;
+		bp.printByteBinary(b);
+		System.out.println();
+		Short s = Short.MAX_VALUE;
+		bp.printShortBinary(s);
+		int i = 1567;
+		System.out.println();
+		bp.printIntBinary(i);
+		System.out.println();
+		long l = 1231234567;
+		bp.printLongBinary(l);
 	}
 	
 	public void printByteBinary(byte b) {
-	
+		System.out.print((b & 0b10000000) >> 7);
+		System.out.print((b & 0b01000000) >> 6);
+		System.out.print((b & 0b00100000) >> 5);
+		System.out.print((b & 0b00010000) >> 4);
+		System.out.print((b & 0b00001000) >> 3);
+		System.out.print((b & 0b00000100) >> 2);
+		System.out.print((b & 0b00000010) >> 1);
+		System.out.print((b & 0b00000001) >> 0);
 	}
 	
 	public void printShortBinary(short s) {
-		
+		printByteBinary((byte)((s & 0xFF00) >> 8));
+		printByteBinary((byte)((s & 0x00FF) >> 0));
 	}
 	
 	public void printIntBinary(int i) {
-		String binary = "";
-		while(i!=0) {
-			binary = (i%2) + binary;
-			i/=2;
-		}
-		System.out.println(binary);
+		printShortBinary((short)((i & 0xFFFF0000)>>8));
+		printShortBinary((short)((i & 0x0000FFFF)>>8));
 	}
 	
 	public void printLongBinary(long l) {
-		
-	}
+		printIntBinary((int)(l>>32));
+		printIntBinary((int)((l & 0x00000000FFFFFFFF) >> 0));	}
 }
